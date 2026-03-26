@@ -1,0 +1,54 @@
+Changes required in Website. 
+1. In Need blood page (Validation fix)
+-> When submitting the request, the max limit of units are 20. But when user enter more than 20. It's doesn't have any validation check at the frontend. Fix it. 
+
+2. Admin Dashboard
+-> When clicking the view button, it should only show the query requested.
+
+3. In About page [Done]
+-> Numbers animation
+
+4. Scroll at the top [Fixed]
+-> On every page, when directed or reloaded. It should scroll to the top
+
+5. QuickCards in Home page
+-> Eligibilty Card should direct to the Become-donor Eligibilty criteria section, not the start.
+
+6. CTA Button in Become-donor
+-> The CTA should scroll to the Registration form in same page
+
+7. Need-blood [Fixed]
+-> Fix validators for Registration form
+
+8. Admin donor management
+-> Suggestion to add - Include the age and last donation column. And an extra column to contact donor after 8 weeks of donation. Should apply a condition when completed 8-9 weeks of last donation the dasboard should automatically show contact donor button or option.
+
+9. Admin Dashboard
+-> Fix
+
+10. Admin Blood request management
+-> Update the page
+
+11. Contact Queries
+-> Failed to update status - fix this error
+
+12. Inventory
+-> Status malfunction and Quick cards Average price
+O+ blood Units available not visible
+
+13. Change password
+-> Fix
+
+14. Most Important - Routing between admin pages
+-> The authentication doesn't work when directly opening admin pages without login.
+
+*Fixes
+1. Login page - When entered wrong password no alert and page gets reloded. [Fixed]
+2. Fix Inventory status, shows wrong status. Status should be stored in db. [Fixed] Reason - Calculating in frontend makes it unaccuracte and slow, always save it in db.
+3. Change password page - When entered current password wrong, page get's reloded and return to login page. [Fixed] Reason - Wrong password has same status code as remove token when logout. So it did conflict. 
+4. Blood Request management - The view button should show all details of patient and contact person. [Fixed] Reason - Add the Contact Details Modal in BloodRequestsTable.
+5. Registration form should store past data. 
+6. Become donor form - Shows (Error connecting server) and throws {"success":false,"message":"Please provide all required fields: name, bloodGroup, phone, city, email, age, gender, lastDonation"} with status code 400 (Bad request) [Fixed] Reason - Switched from fetch to axios, but the post request from Registration form was same, which leads to error.
+7. Need-blood page automatically redirects to admin login page, maybe it requires authentication. [Fixed] Reason - The GET / Inventory route was protected, which leads to login.
+8. Contact form also same error as become-donor - {"success":false,"message":"Please provide all required fields: name, email, message, phone, subject"} 
+Error connecting server - status 400 [Fixed] Reason - Same, switched from fetch to axios.
