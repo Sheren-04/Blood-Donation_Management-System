@@ -15,7 +15,7 @@ RUN npm run build
 # ---------- Stage 2: Serve with Nginx ----------
 FROM nginx:alpine
 
-# Remove default nginx config
+# Remove default nginx config file
 RUN rm -rf /etc/nginx/conf.d/default.conf
 
 # Copy custom nginx config
