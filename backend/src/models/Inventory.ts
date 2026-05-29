@@ -15,22 +15,26 @@ const inventorySchema = new Schema<IInventory>(
       enum: ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"],
       unique: true,
     },
+
     unitsAvailable: {
       type: Number,
       required: true,
       min: 0,
       default: 0,
     },
+
     pricePerUnit: {
       type: Number,
       required: true,
       min: 0,
       default: 3000,
     },
+
     status: {
       type: String,
       enum: ["Available", "Low", "Out of Stock"],
-      required: true
+      required: true,
+      default: "Available"
     },
   },
   { timestamps: true }
