@@ -29,7 +29,7 @@ const inventorySchema = new Schema<IInventory>(
       min: 0,
       default: 3000,
     },
-
+    //added status field
     status: {
       type: String,
       enum: ["Available", "Low", "Out of Stock"],
