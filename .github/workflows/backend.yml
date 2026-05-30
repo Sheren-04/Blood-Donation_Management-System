@@ -1,0 +1,66 @@
+# .github/workflows/backend.yml
+name: Deploy Blood Bank Backend
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'backend/**'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1 — Checkout code
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Step 2 — Setup Docker Buildx
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # Step 3 — Login to Docker Hub
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      # Step 4 — Build & Push to Docker Hub
+      - name: Build and Push Docker Image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./backend
+          push: true
+          tags: |
+            ${{ secrets.DOCKER_USERNAME }}/ms-backend:latest
+            ${{ secrets.DOCKER_USERNAME }}/ms-backend:${{ github.sha }}
+
+      # Step 5 — Deploy to OpenShift
+      - name: Deploy to OpenShift
+        run: |
+          # Install oc CLI
+          curl -LO https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest/openshift-client-linux.tar.gz
+          tar -xvf openshift-client-linux.tar.gz
+          sudo mv oc /usr/local/bin/
+
+          # Login to OpenShift
+          oc login \
+            --token=${{ secrets.OPENSHIFT_TOKEN }} \
+            --server=${{ secrets.OPENSHIFT_SERVER }} \
+            --insecure-skip-tls-verify=true
+
+          # Switch to namespace
+          oc project sheren04-dev
+
+          # Update image
+          oc set image deployment/backend \
+            backend=${{ secrets.DOCKER_USERNAME }}/ms-backend:${{ github.sha }}
+
+          # Wait for rollout
+          oc rollout status deployment/backend
+
+          # Verify
+          oc get pods
