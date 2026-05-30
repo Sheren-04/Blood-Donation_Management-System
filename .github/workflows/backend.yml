@@ -35,8 +35,8 @@ jobs:
           context: ./backend
           push: true
           tags: |
-            ${{ secrets.DOCKER_USERNAME }}/ms-backend:latest
-            ${{ secrets.DOCKER_USERNAME }}/ms-backend:${{ github.sha }}
+            ${{ secrets.DOCKER_USERNAME }}/management-backend:latest
+            ${{ secrets.DOCKER_USERNAME }}/management-backend:${{ github.sha }}
 
       # Step 5 — Deploy to OpenShift
       - name: Deploy to OpenShift
@@ -57,7 +57,7 @@ jobs:
 
           # Update image
           oc set image deployment/backend \
-            backend=${{ secrets.DOCKER_USERNAME }}/ms-backend:${{ github.sha }}
+            backend=${{ secrets.DOCKER_USERNAME }}/management-backend:${{ github.sha }}
 
           # Wait for rollout
           oc rollout status deployment/backend
