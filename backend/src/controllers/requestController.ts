@@ -131,24 +131,26 @@ export const deleteBloodRequest = async (req: Request, res: Response): Promise<v
     });
   }
 };
-export const updateBloodRequestStatus = async (req: Request, res: Response) => {
+export const updateBloodRequestStatus = async (req: Request, res: Response): Promise<void> => {
   try {
     const { status } = req.body;
 
     if (!status) {
-      return res.status(400).json({
+        res.status(400).json({ 
         success: false,
         message: 'Status is required',
       });
+      return; 
     }
 
     const request = await BloodRequest.findById(req.params.id);
 
     if (!request) {
-      return res.status(404).json({ 
+        res.status(404).json({ 
         success: false,
         message: 'Request not found',
       });
+      return;
     }
 
     request.status = status;
