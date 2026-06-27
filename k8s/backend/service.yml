@@ -1,0 +1,16 @@
+# k8s/backend/service.yml
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-service
+  namespace: sheren04-dev
+  labels:
+    app: backend
+spec:
+  selector:
+    app: backend        # ← matches backend deployment label
+  ports:
+  - protocol: TCP
+    port: 5000
+    targetPort: 5000
+  type: ClusterIP       # ← internal only, not exposed outside

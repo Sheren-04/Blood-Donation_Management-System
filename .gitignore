@@ -4,3 +4,5 @@ dist
 Dockerfile.dev
 coverage
 npm-debug.log
+secret.yml
+secret.yml

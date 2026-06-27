@@ -1,0 +1,16 @@
+# k8s/frontend/service.yml
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-service
+  namespace: sheren04-dev
+  labels:
+    app: frontend
+spec:
+  selector:
+    app: frontend       # ← matches frontend deployment label
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: 8080
+  type: ClusterIP       # ← internal only, accessed via Ingress
